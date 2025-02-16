@@ -1,32 +1,40 @@
-# Prerequisites
-*.d
-
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
-
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
-# Executables
-*.exe
-*.out
-*.app
+#include <iostream>
+using namespace std;
+struct number {
+    int data;
+    number* next;
+    number(int val) : data(val), next(nullptr) {}
+};
+class Queue {
+    number* front;
+    number* rear;
+public:
+    Queue() : front(nullptr), rear(nullptr) {}
+    void enqueue(int value) {
+        number* newnumber = new number(value);
+        if (!rear) front = rear = newnumber;
+        else rear = rear->next = newnumber;
+    }
+    void dequeue() {
+        if (!front) return;
+        number* temp = front;
+        front = front->next;
+        if (!front) rear = nullptr;
+        delete temp;
+    }
+    void display() {
+        for (number* temp = front; temp; temp = temp->next)
+            cout << temp->data << " ";
+        cout << endl;
+    }
+};
+int main() {
+    Queue q;
+    q.enqueue(11);
+    q.enqueue(12);
+    q.enqueue(13);
+    q.display();
+    q.dequeue();
+    q.display();
+    return 0;
+}
